@@ -1,0 +1,1022 @@
+openapi: 3.1.0
+info:
+  title: Finance-Tracker-Services
+  version: 1.0.0
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+
+paths: 
+  /api/v1/signup:
+    post: 
+      summary: "Self-signup"
+      operationId: "userSignup"
+      tags: 
+        - "authorization"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userData
+              properties:
+                userData:
+                  type: object
+                  required:
+                    - firstName
+                    - lastName
+                    - username
+                    - email
+                    - password
+                  properties:
+                    firstName: 
+                      type: string
+                    lastName:
+                      type: string
+                    username:
+                      type: string
+                      description: "Username must be unique"
+                    email:
+                      type: string
+                      format: email
+                      description: "Email must be unique"
+                    password:
+                      type: string
+      responses:
+        "200":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data: 
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      firstName:
+                        type: string
+                        example: "string"
+                      lastName:
+                        type: string
+                        example: "string"
+                      username:
+                        type: string
+                        example: "string"
+                      email:
+                        type: string
+                        format: email
+                        example: "string"
+                      createdAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+          
+  /api/v1/login:
+    post: 
+      summary: "User login, issuing JWT upon successful credential validation."
+      operationId: "userLogin"
+      tags: 
+        - "authorization"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      
+      responses:
+        "200":
+          description: "Login was successful."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        "404":
+          description: "Invalid credentials."
+        "500":
+          description: "Internal server error"
+  /api/v1/users/:userId:
+    put: 
+      summary: "Update user by user id."    
+      operationId: "updateUser"
+      security:
+        - cookieAuth: []
+      tags: 
+        - "user"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userData
+              properties:
+                userData:
+                  type: object
+                  properties:
+                    firstName: 
+                      type: string
+                    lastName:
+                      type: string
+                    username:
+                      type: string
+                      description: "Username must be unique"
+                    email:
+                      type: string
+                      description: "Email must be unique"
+                    password:
+                      type: string
+      responses:
+        "200":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data: 
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      firstName:
+                        type: string
+                        example: "string"
+                      lastName:
+                        type: string
+                        example: "string"
+                      username:
+                        type: string
+                        example: "string"
+                      email:
+                        type: string
+                        format: email
+                        example: "string"
+                      createdAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+  /api/v1/users/:userId/accounts/:
+    get: 
+      summary: "Get accounts by user id."
+      operationId: "getAccounts"
+      security:
+        - cookieAuth: []
+      tags:
+        - "accounts"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "page"
+          in: "query"
+          required: false
+          schema:
+            type: integer
+            default: 1
+            example: 1
+        - name: "limit"
+          in: "query"
+          required: false
+          schema:
+            type: integer
+            default: 10
+            example: 10
+      responses:
+        "200":
+            description: "Operation was successful."
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: "string"
+                    data:
+                      type: object
+                      properties:
+                        totalCount:
+                          type: integer
+                          example: 123
+                        currentPage:
+                          type: integer
+                          example: 1
+                        limit:
+                          type: integer
+                          example: 10
+                        hasMore:
+                          type: boolean
+                          example: false
+                        data:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            userId:
+                              type: integer
+                            name:
+                              type: string
+                            no:
+                              type: string
+                            startOn:
+                              type: string
+                              format: date-time
+                              example: "2024-01-01T00:00:00.000Z"
+                            endOn:
+                              type: string
+                              format: date-time
+                              example: "2024-01-01T00:00:00.000Z"
+                            createdAt:
+                              type: string
+                              format: date-time
+                              example: "2024-01-01T00:00:00.000Z"
+                            updatedAt:
+                              type: string
+                              format: date-time
+                              example: "2024-01-01T00:00:00.000Z"
+        "404":
+          description: "Unarthorized requset."
+        "500":
+          description: "Internal server error"
+    post: 
+      summary: "Create account for user."
+      operationId: "createAccount"
+      security:
+        - cookieAuth: []
+      tags:
+        - "accounts"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userData
+              properties:
+                userData:
+                  type: object
+                  required:
+                    - userId
+                    - name
+                  properties:
+                    userId: 
+                      type: integer
+                      example: 123
+                    name:
+                      type: string
+                      exmaple: "string"
+                    no:
+                      type: string
+                      example: "1234"
+                    startOn:
+                      type: string
+                      format: date
+                      example: "2024-01-01"
+                    endOn:
+                      type: string
+                      format: date
+                      example: "2024-01-01"
+      responses:
+        "200":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data: 
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      userId:
+                        type: integer
+                        example: 123
+                      name:
+                        type: string
+                        example: "string"
+                      no:
+                        type: string
+                        example: "string"
+                      startOn:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      endOn:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      createdAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+  /api/v1/users/:userId/accounts/:accountId:
+    get: 
+      summary: "Get account by account id."
+      operationId: "getAccount"
+      security:
+        - cookieAuth: []
+      tags:
+        - "accounts"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "accountId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      responses:
+        responses:
+        "200":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data: 
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      userId:
+                        type: integer
+                        example: 123
+                      name:
+                        type: string
+                        example: "string"
+                      no:
+                        type: string
+                        example: "string"
+                      startOn:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      endOn:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      createdAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+    put: 
+      summary: "Update account by account id."
+      operationId: "updateAccount"
+      security:
+        - cookieAuth: []
+      tags:
+        - "accounts"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "accountId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      requestBody: 
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userData
+              properties:
+                userData:
+                  type: object
+                  required:
+                    - userData
+                  properties:
+                    name:
+                      type: string
+                      exmaple: "string"
+                    no:
+                      type: string
+                      example: "1234"
+                    startOn:
+                      type: string
+                      format: date
+                      example: "2024-01-01"
+                    endOn:
+                      type: string
+                      format: date
+                      example: "2024-01-01"
+      responses:
+        responses:
+        "200":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data: 
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      userId:
+                        type: integer
+                        example: 123
+                      name:
+                        type: string
+                        example: "string"
+                      no:
+                        type: string
+                        example: "string"
+                      startOn:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+                      endOn:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+                      createdAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+    delete: 
+      summary: "Soft del account by account id."
+      operationId: "softDelAccount"
+      security:
+        - cookieAuth: []
+      tags:
+        - "accounts"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "accountId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      responses:
+        responses:
+        "200":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data: 
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      userId:
+                        type: integer
+                        example: 123
+                      name:
+                        type: string
+                        example: "string"
+                      no:
+                        type: string
+                        example: "string"
+                      startOn:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      endOn:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      createdAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+                      deletedAt:
+                        type: date
+                        example: "2024-11-17T21:25:23.858Z"
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+  /api/v1/users/:userId/accounts/:accountId/transactions/:
+    get: 
+      summary: "Get transactions by acount id."
+      operationId: "getTransactions"
+      security:
+        - cookieAuth: []
+      tags:
+        - "transactions"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "accountId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      responses:
+        "200":
+          description: "Transaction created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      totalCount:
+                        type: integer
+                        example: 10
+                      totalPages:
+                        type: integer
+                        example: 1
+                      currentPage:
+                        type: integer
+                        example: 1
+                      limit:
+                        type: integer
+                        example: 10
+                      hasMore:
+                        type: boolean
+                        example: false
+                      data:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 123
+                          accountId:
+                            type: integer
+                            example: 123
+                          name:
+                            type: string
+                            enum:
+                              - credit
+                              - debit
+                            example: debit
+                          type:
+                            type: string
+                            example: string
+                          ammount:
+                            type: number
+                            foramt: float
+                            example: 100.50
+                          postingDate:
+                            type: string
+                            format: date-time
+                            example: "2024-01-01T00:00:00.000Z"
+                          createdAt:
+                            type: date-time
+                            example: "2024-11-17T21:25:23.858Z"
+                          updatedAt:
+                            type: date-time
+                            example: "2024-11-17T21:25:23.858Z"
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+    post: 
+      summary: "Create transaction for account."
+      operationId: "createTransaction"
+      security:
+        - cookieAuth: []
+      tags:
+        - "transactions"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "accountId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - transactionData
+              properties:
+                transactionData:
+                  type: object
+                  required:
+                    - accountId
+                    - name
+                    - type
+                    - ammount
+                    - postingDate
+                  properties:
+                    accountId:
+                      type: integer
+                      example: 123
+                    name:
+                      type: string
+                      example: string
+                    type:
+                      type: string
+                      enum:
+                       - credit
+                       - debit
+                      example: debit
+                    ammount:
+                      type: number
+                      foramt: float
+                      example: 100.50
+                    postingDate:
+                      type: string
+                      format: date
+                      example: "2024-01-01"
+      responses:
+        "200":
+          description: "Transaction created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      accountId:
+                        type: integer
+                        example: 123
+                      name:
+                        type: string
+                        example: string
+                      type:
+                        type: string
+                        enum:
+                        - credit
+                        - debit
+                        example: debit
+                      ammount:
+                        type: number
+                        foramt: float
+                        example: 100.50
+                      postingDate:
+                        type: string
+                        format: date-time
+                        example: "2024-01-01T00:00:00.000Z"
+                      createdAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+  /api/v1/users/:userId/accounts/:accountId/transactions/:transactionId:
+    get: 
+      summary: "Get transaction by transaction id."
+      operationId: "getTransaction"
+      security:
+        - cookieAuth: []
+      tags:
+        - "transactions"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "accountId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "transactionId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      responses:
+        "200":
+          description: "Transaction created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      accountId:
+                        type: integer
+                        example: 123
+                      name:
+                        type: string
+                        example: string
+                      type:
+                        type: string
+                        enum:
+                        - credit
+                        - debit
+                        example: debit
+                      ammount:
+                        type: number
+                        foramt: float
+                        example: 100.50
+                      postingDate:
+                        type: string
+                        format: date-time
+                        example: "2024-01-01T00:00:00.000Z"
+                      createdAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+    put: 
+      summary: "Update transaction by transaction id."
+      operationId: "updateTransaction"
+      security:
+        - cookieAuth: []
+      tags:
+        - "transactions"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "accountId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "transactionId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: 
+                - transactionData
+              properties:
+                transactionData:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: string
+                    type:
+                        type: string
+                        enum:
+                        - credit
+                        - debit
+                        example: debit
+                    ammount:
+                      type: number
+                      foramt: float
+                      example: 100.50
+                    postingDate:
+                      type: string
+                      format: date
+                      example: "2024-01-01"
+      responses:
+        "200":
+          description: "Transaction created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      accountId:
+                        type: integer
+                        example: 123
+                      name:
+                        type: string
+                        example: string
+                      type:
+                        type: string
+                        enum:
+                        - credit
+                        - debit
+                        example: debit
+                      ammount:
+                        type: number
+                        foramt: float
+                        example: 100.50
+                      postingDate:
+                        type: string
+                        format: date-time
+                        example: "2024-01-01T00:00:00.000Z"
+                      createdAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"                      
+        "400":
+          description: "Invalid input"
+        "500":
+          description: "Internal server error"
+    delete: 
+      summary: "Soft del transaction by transaction id."
+      operationId: "softDelTransaction"
+      security:
+        - cookieAuth: []
+      tags:
+        - "transactions"
+      parameters:
+        - name: "userId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "accountId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+        - name: "transactionId"
+          in: "path"
+          required: true
+          schema:
+            type: string
+            example: "123"
+      responses:
+        "200":
+          description: "Transaction created successfully"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 123
+                      accountId:
+                        type: integer
+                        example: 123
+                      name:
+                        type: string
+                        example: string
+                      type:
+                        type: string
+                        enum:
+                        - credit
+                        - debit
+                        example: debit
+                      ammount:
+                        type: number
+                        foramt: float
+                        example: 100.50
+                      postingDate:
+                        type: string
+                        format: date-time
+                        example: "2024-01-01T00:00:00.000Z"
+                      createdAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+                      updatedAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+                      deletedAt:
+                        type: date-time
+                        example: "2024-11-17T21:25:23.858Z"
+      "400":
+          description: "Invalid input"
+      "500":
+          description: "Internal server error"
+
