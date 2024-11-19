@@ -17,15 +17,15 @@
     - [Connecting to Mariadb Locally](#connecting-to-mariadb-locally)
   - [Important: API Documentation](#important-api-documentation)
   - [Project Design](#project-design)
-    - [Constants](#constants)
-    - [Controllers](#controllers)
-    - [Database](#database)
-    - [Errors](#errors)
-    - [Middleware](#middleware)
-    - [Models](#models)
-    - [Routes](#routes)
-    - [Services](#services)
-    - [Utilities](#utilities)
+    - [📁 Constants](#-constants)
+    - [📁 Controllers](#-controllers)
+    - [📁 Database](#-database)
+    - [📁 Errors](#-errors)
+    - [📁 Middleware](#-middleware)
+    - [📁 Models](#-models)
+    - [📁 Routes](#-routes)
+    - [📁 Services](#-services)
+    - [📁 Utilities](#-utilities)
 
 ## Introduction
 
@@ -35,7 +35,15 @@ It is intended to demonstrate technical acumen with various technologies that in
 
 ### Background
 
-This project implements a backend service for a simplified finance tracker. Application is a self-signup that allows each user to create multiple accounts for tracking debits and credits.
+This project implements a backend service for a simply finance tracker. Application is a self-signup that allows each user to create multiple accounts for tracking debits and credits.
+
+```plain text
+// Below is a visual representation of the user flow.
+sign-up
+  ├─ login
+  │   ├─ create account
+  │   │   └─ add transaction
+```
 
 ### Technologies
 
@@ -108,9 +116,9 @@ Using Docker helps maintain a consistent development environment, ensuring that 
 
 ### Connecting to Mariadb Locally
 
-To connect to the Postgres instance hosted in Docker, use your preferred database management tool.
+To connect to the database instance hosted in Docker, use your preferred database management tool.
 
-> **Tip**: Port must be set to **3300**, not **3306**, for a successful connection. The Postgres instance was exposed externally for connections outside of the Docker network on a different port to avoid conflict for any pre-existing local Postgres instances.
+> **Tip**: Port must be set to **3300**, not **3306**, for a successful connection. The database instance was exposed externally for connections outside of the Docker network on a different port to avoid conflict for any pre-existing local instances.
 
 ---
 
@@ -158,55 +166,55 @@ router
 
 ```
 
-### Constants
+### 📁 Constants
 
 Stores contant values that are globally accessible throughout the project. This can include message variables, router paths, and other global contant values. Using a constant files avoids hardcodig values throughout the codebase, simplifiing code and reducing errors.
 
 ---
 
-### Controllers
+### 📁 Controllers
 
 Contains the business logic for incoming requests. Controllers are responsible for handling the requests, invoking necessary services, and return appropriate responses.
 
 ---
 
-### Database
+### 📁 Database
 
 This folder the necessary logic for establishing a connection with the Mariadb instance. This includes database and table creation.
 
 ---
 
-### Errors
+### 📁 Errors
 
 A collection of custom error classes that enhance error handling throughout the application.
 
 ---
 
-### Middleware
+### 📁 Middleware
 
 This folder contains functions that process requests before they are passed to route handlers (controllers). Middleware includes authentication and error handling.
 
 ---
 
-### Models
+### 📁 Models
 
 This folder contains the data definitions for database tables that store data for this application. Models are defined using an ORM, Sequelize.
 
 ---
 
-### Routes
+### 📁 Routes
 
 This folder contains the path operations and the HTTP methods for each endpoint. It maps each request to a corresponding controller. Routes also includes neccesary middleware that is needed prior to passing the request to the corresponding controller.
 
 ---
 
-### Services
+### 📁 Services
 
 Services are responsible for handling core logic of the application, interacting with the database. They abstract the I/O operations from the controller making the code more modular and easier to maintain.
 
 ---
 
-### Utilities
+### 📁 Utilities
 
 Folder contains a collection of helper functions and utilities that do not fall in any specific category that is needed throughout the application.
 
