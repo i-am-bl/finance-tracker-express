@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { config } from "dotenv";
-import { InvalidCredentials } from "../errors/login.js";
-import { UserUnauthorized } from "../errors/users.js";
-import { InvalidSchema } from "../errors/schemaValidation.js";
+import { InvalidCredentials } from "../../errors/login.js";
+import { UserUnauthorized } from "../../errors/users.js";
+import { InvalidSchema } from "../../errors/schemaValidation.js";
 
 config();
 
