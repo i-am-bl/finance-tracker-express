@@ -7,15 +7,15 @@
   - [Introduction](#introduction)
     - [Purpose](#purpose)
     - [Background](#background)
-    - [Technologies](#technologies)
-  - [Important: Installation Dependencies](#important-installation-dependencies)
+    - [💻 Technologies](#-technologies)
+  - [📌 Important: Installation Dependencies](#-important-installation-dependencies)
     - [Environment Variables](#environment-variables)
       - [Setting Environment Variables](#setting-environment-variables)
     - [Docker Installation](#docker-installation)
       - [Why use Docker?](#why-use-docker)
       - [Docker Commands](#docker-commands)
     - [Connecting to Mariadb Locally](#connecting-to-mariadb-locally)
-  - [Important: API Documentation](#important-api-documentation)
+  - [📌 Important: API Documentation](#-important-api-documentation)
   - [Project Design](#project-design)
     - [📁 Constants](#-constants)
     - [📁 Controllers](#-controllers)
@@ -31,11 +31,11 @@
 
 ### Purpose
 
-It is intended to demonstrate technical acumen with various technologies that include Node.js, Mariadb, and Docker. This project is primarily focused on API developement with the Express.js framework. Primarily focusing on APIs, front-end development was excluded.
+It is intended to demonstrate technical acumen with various technologies that include Node.js, Mariadb, and Docker. This project is primarily focused on API development with the Express.js framework. Primarily focusing on APIs, front-end development was excluded.
 
 ### Background
 
-This project implements a backend service for a simply finance tracker. Application is a self-signup that allows each user to create multiple accounts for tracking debits and credits.
+This project implements a backend service for a simple finance tracker. Application is a self-signup that allows each user to create multiple accounts for tracking debits and credits. This is intended to help users track their montly expenses.
 
 ```plain text
 // Below is a visual representation of the user flow.
@@ -45,20 +45,20 @@ sign-up
   │   │   └─ add transaction
 ```
 
-### Technologies
+### 💻 Technologies
 
 The following highlights the technologies applied. Each was selected for an attribute to demonstrate the contextual knowledge of capabilities offered.
 
-- **Node.js**:\
+- ✨ **Node.js**:\
   This project is written in Node.js. Chosen for ease of use, readability, and access to the Express framework.
-- **Express.js**:\
-  An API Node.js framework. Chosen for the asynchronous programming support and middleware features. Each request passes through a middleware layer, simplifying the implementation of repitive business logic for each endpoint.
-- **Mariadb**:\
-  RDBMS (Relational Database Management System) technology, chosen for the feature rich dialect of SQL. It is an open-source solution that has well established branch and reputation in the market. Software defects are resolved quicker than other open-source solutions.
-- **Docker**:\
+- ✨ **Express.js**:\
+  An API Node.js framework. Chosen for the asynchronous programming support and middleware features. Each request passes through a middleware layer, simplifying the implementation of repetitive business logic for each endpoint.
+- ✨ **Mariadb**:\
+  RDBMS (Relational Database Management System) technology, chosen for the feature rich dialect of SQL. It is an open-source solution that has well established branch and reputation in the market.
+- ✨ **Docker**:\
   Chosen to provide a consistent environment for running the code.
 
-## Important: Installation Dependencies
+## 📌 Important: Installation Dependencies
 
 ### Environment Variables
 
@@ -122,14 +122,16 @@ To connect to the database instance hosted in Docker, use your preferred databas
 
 ---
 
-## Important: API Documentation
+## 📌 Important: API Documentation
 
 API design has been documented using OpenAPI specifications written in YAML. This can be located in the root directory `./openapi-docs/openapi.yaml`. Providing a robust output, this documentation has been served using both the swaggerUI and redoc libraries.
 
-Running this project locally will generate the interactive documentation that can be found at each respective path below.
+Running this project locally will generate interactive documentation that can be found at each respective path below.
 
-- **swaggerUI**: `/docs`
-- **redoc**: `/redoc`
+- **swaggerUI**: `/docs`\
+  SwaggerUI offers a user-friendly interactive interface for exploring API functionality.
+- **redoc**: `/redoc`\
+  ReDoc offers more detailed documentation that includes authentication requirements, enums, and other pertinent information.
 
 > **Tip**: Each path serves each flavor of the documentation at `localhost:3000`.
 
@@ -145,7 +147,7 @@ src
   ├─ database           // Manages database connections, configurations, etc.
   ├─ errors             // Custom Error classes and error handling.
   ├─ middleware         // Middleware functions that process requests before reaching each controller.
-  ├─ models             // Defines the structure of data in teh application (e.g., database schemas).
+  ├─ models             // Defines the structure of data in the application (e.g., database schemas).
   ├─ routes             // Defines the API endpoints and their corresponding operations.
   ├─ services           // Encapsulates business logic for database interaction.
   └─ utilities          // Helper functions and utilities used throughout the application.
@@ -153,7 +155,7 @@ src
 ```
 
 ```plain text
-// The following is a representation of hiearchy in the code implementation.
+// The following is a representation of hierarchy in the code implementation.
 router
   |
   └─ middleware
@@ -168,7 +170,7 @@ router
 
 ### 📁 Constants
 
-Stores contant values that are globally accessible throughout the project. This can include message variables, router paths, and other global contant values. Using a constant files avoids hardcodig values throughout the codebase, simplifiing code and reducing errors.
+Stores constant values that are globally accessible throughout the project. This can include message variables, router paths, and other global constant values. Using a constant file avoids hardcoding values throughout the codebase, simplifying code and reducing errors.
 
 ---
 
@@ -180,7 +182,7 @@ Contains the business logic for incoming requests. Controllers are responsible f
 
 ### 📁 Database
 
-This folder the necessary logic for establishing a connection with the Mariadb instance. This includes database and table creation.
+This folder contains the necessary logic for establishing a connection with the Mariadb instance. This includes database and table creation.
 
 ---
 
@@ -204,18 +206,18 @@ This folder contains the data definitions for database tables that store data fo
 
 ### 📁 Routes
 
-This folder contains the path operations and the HTTP methods for each endpoint. It maps each request to a corresponding controller. Routes also includes neccesary middleware that is needed prior to passing the request to the corresponding controller.
+This folder contains the path operations and the HTTP methods for each endpoint. It maps each request to a corresponding controller. Routes also include necessary middleware that is needed prior to passing the request to the corresponding controller.
 
 ---
 
 ### 📁 Services
 
-Services are responsible for handling core logic of the application, interacting with the database. They abstract the I/O operations from the controller making the code more modular and easier to maintain.
+Services are responsible for handling the core logic of the application, interacting with the database. They abstract the I/O operations from the controller making the code more modular and easier to maintain.
 
 ---
 
 ### 📁 Utilities
 
-Folder contains a collection of helper functions and utilities that do not fall in any specific category that is needed throughout the application.
+This folder contains a collection of helper functions and utilities that do not fall in any specific category that is needed throughout the application.
 
 ---
