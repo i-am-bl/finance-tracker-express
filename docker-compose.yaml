@@ -1,7 +1,6 @@
 services:
   db:
     image: mariadb
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PWD}
       MYSQL_USER: ${DB_USRNM}
